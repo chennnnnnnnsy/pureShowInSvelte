@@ -1,23 +1,31 @@
 <style>
-#app {
+#scroll {
   width: 100vw;
   height: 200vh;
   position: relative;
   overflow: hidden;
+  transition-property: translate;
 }
 </style>
 
 <script lang="ts">
+import { onMount, onDestroy } from "svelte";
+import { currentPageIndex } from "./store";
+
+import Header from './components/Header.svelte'
 import Hello from "./pages/hello.svelte";
 import Introduction from "./pages/introduction.svelte";
 
-let currentPage: string = "";
+let currentIndex: number;
+const unsubscribe = currentPageIndex.subscribe((val: number) => {
+  currentIndex = val;
+});
 
-// position 在矩阵的坐标
-const pages = {
-  hello: "1-0",
-  introduction: "0-0",
-};
+/** 当前页面的坐标 */
+let scrollPostion: string = "";
+
+/** 下一个�页面��序 */
+const stepList: Array<string> = ["hello", "introduction"];
 
 /**
  * 页面矩阵
@@ -26,14 +34,57 @@ const pages = {
  *   [ 'hello' ],
  * ]
  */
-const viewMap: Array<Array<string>> = [["introduction"]["hello"]];
+const viewMap: Array<Array<string>> = [["introduction"], ["hello"]];
 
+/**
+ * 去到下一个页面
+ * @param event event.detail:forwrad or back.
+ */
 const nextStep = (event: any) => {
-  console.log("event", event);
+  const type = event.detail || "forward";
+  let nextPage: string = "";
+  let index = 0;
+
+  if (type === "forward") {
+    index = currentIndex + 1;
+    if (index > stepList.length) return;
+  } else {
+    index = currentIndex - 1;
+    if (index < 0) return;
+  }
+  currentPageIndex.set(index);
+  nextPage = stepList[index];
+
+  for (let i = 0, len = viewMap.length; i < len; i++) {
+    const vo = viewMap[i];
+
+    for (let j = 0, length = vo.length; j < length; j++) {
+      const one = vo[j];
+
+      if (one === nextPage) {
+        scrollPostion = `translate:${j * 100}vw -${i * 100}vh`;
+        return;
+      }
+    }
+  }
 };
+
+onMount(() => {
+  nextStep({ detail: "forward" });
+});
+
+onDestroy(() => {
+  // 使用这个退订，currentPageIndex值更新再不会给currentIndex赋值了。
+  // 如果是最后一个退订，则会打印 "�部退订"
+  unsubscribe();
+});
 </script>
 
-<main id="app">
-  <Introduction />
-  <Hello on:next="{nextStep}" />
+<main class="full-view">
+  <Header />
+
+  <div id="scroll" class="half-second-transition" style="{scrollPostion}">
+    <Introduction />
+    <Hello on:next="{nextStep}" />
+  </div>
 </main>

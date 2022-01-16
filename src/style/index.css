@@ -3,5 +3,9 @@
 @tailwind utilities;
 
 .full-view {
-  @apply w-screen h-screen overflow-hidden box-border relative;
+  @apply container w-screen h-screen overflow-hidden box-border relative bg-yellow-50;
+}
+
+.half-second-transition {
+  @apply duration-300
 }
