@@ -4,8 +4,9 @@
 
 .full-view {
   @apply container w-screen h-screen overflow-hidden box-border relative bg-yellow-50;
+  max-width: 100vw;
 }
 
 .half-second-transition {
-  @apply duration-300
+  @apply duration-300;
 }

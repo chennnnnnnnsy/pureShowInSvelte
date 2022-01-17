@@ -14,6 +14,9 @@ module.exports = {
       lineHeight: {
         12: "3rem",
       },
+      padding: {
+        header: "52px",
+      },
     },
   },
   plugins: [],

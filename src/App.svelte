@@ -16,15 +16,19 @@ import Header from './components/Header.svelte'
 import Hello from "./pages/hello.svelte";
 import Introduction from "./pages/introduction.svelte";
 
-let currentIndex: number;
+/** 当前展示页面的下标 */
+let currentIndex: number; // 
+// 订阅currentPageIndex，并与本组件的 currenIndex 关联起来
 const unsubscribe = currentPageIndex.subscribe((val: number) => {
   currentIndex = val;
 });
 
+currentPageIndex.set(0)
+
 /** 当前页面的坐标 */
 let scrollPostion: string = "";
 
-/** 下一个�页面��序 */
+/** 下一个页面顺序 */
 const stepList: Array<string> = ["hello", "introduction"];
 
 /**
@@ -75,7 +79,7 @@ onMount(() => {
 
 onDestroy(() => {
   // 使用这个退订，currentPageIndex值更新再不会给currentIndex赋值了。
-  // 如果是最后一个退订，则会打印 "�部退订"
+  // 如果是最后一个退订，则会打印 "全部退订"
   unsubscribe();
 });
 </script>
