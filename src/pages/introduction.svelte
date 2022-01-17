@@ -1,23 +1,16 @@
-<style>
-.introduction-scroll {
-  overflow-y: auto !important;
-  height: 100%;
-  width: calc(100vw + 16px);
-  padding: 30px 0;
-  padding-bottom: 0;
-}
-</style>
-
 <script lang="ts">
-import { onMount } from "svelte";
-
+import {createEventDispatcher } from "svelte";
 import MarkText from "../components/MarkText.svelte";
 import githubImg from "../assets/github.png";
 import rank2019 from "../assets/rank-2019.png";
 import rank2020 from "../assets/rank-2020.png";
 import rank2021 from "../assets/rank-2021.png";
+import arrowRight from "../assets/arrow-right.png";
+
+import {contentWidth,scaleStyle} from '../store'
 
 const title: string = "Sveltes是什么？";
+const dispatch = createEventDispatcher()
 
 const imgList = [
   { name: "2019年度前端框架流行排行", img: rank2019 },
@@ -25,19 +18,14 @@ const imgList = [
   { name: "2021年度前端框架流行排行", img: rank2021 },
 ];
 
-let scale = "";
-
-onMount(() => {
-  const w = document.body.clientWidth;
-  const radio:any = ((w - 300) / 880).toFixed(2);
-  const top = 858 * ( radio - 1 );
-  scale = `transform: scale(${radio});top: ${top}px`;
-});
+function nextStep() {
+  dispatch('next')
+}
 </script>
 
-<section class="full-view pt-header">
-  <div class="introduction-scroll">
-    <div class="w-[880px] pb-8 mx-auto relative" style="{scale}">
+<section class="full-view pt-header absolute left-[100vw] top-0">
+  <div class="context-scroll">
+    <div class="pb-8 mx-auto relative" style="width: {$contentWidth}px;{$scaleStyle}">
       <h1 class="text-t-color font-medium text-4xl">
         {title}
       </h1>
@@ -86,6 +74,15 @@ onMount(() => {
       <p class="text-t-color text-xl pt-3">
         上面三个点后面再展开说，现在请带着这三个特点往下看。
       </p>
+
+      <div class="text-right">
+        <div on:click="{nextStep}" class="inline-block border-b cursor-pointer border-[#FF3E00] text-[#FF3E00]">
+          <i>Next</i><img
+            src="{arrowRight}"
+            class="ml-2 w-4 inline-block"
+            alt="arrow" />
+        </div>
+      </div>
     </div>
   </div>
 </section>

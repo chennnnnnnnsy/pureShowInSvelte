@@ -1,6 +1,6 @@
 <style>
 #scroll {
-  width: 100vw;
+  width: 200vw;
   height: 200vh;
   position: relative;
   overflow: hidden;
@@ -15,6 +15,7 @@ import { currentPageIndex } from "./store";
 import Header from './components/Header.svelte'
 import Hello from "./pages/hello.svelte";
 import Introduction from "./pages/introduction.svelte";
+import Usage from './pages/usage.svelte'
 
 /** 当前展示页面的下标 */
 let currentIndex: number; // 
@@ -23,13 +24,13 @@ const unsubscribe = currentPageIndex.subscribe((val: number) => {
   currentIndex = val;
 });
 
-currentPageIndex.set(0)
+// currentPageIndex.set(0)
 
 /** 当前页面的坐标 */
 let scrollPostion: string = "";
 
 /** 下一个页面顺序 */
-const stepList: Array<string> = ["hello", "introduction"];
+const stepList: Array<string> = ["hello", "introduction", 'usage'];
 
 /**
  * 页面矩阵
@@ -38,7 +39,7 @@ const stepList: Array<string> = ["hello", "introduction"];
  *   [ 'hello' ],
  * ]
  */
-const viewMap: Array<Array<string>> = [["introduction"], ["hello"]];
+const viewMap: Array<Array<string>> = [["usage","introduction"], ["","hello"]];
 
 /**
  * 去到下一个页面
@@ -66,7 +67,7 @@ const nextStep = (event: any) => {
       const one = vo[j];
 
       if (one === nextPage) {
-        scrollPostion = `translate:${j * 100}vw -${i * 100}vh`;
+        scrollPostion = `translate:-${j * 100}vw -${i * 100}vh`;
         return;
       }
     }
@@ -84,11 +85,12 @@ onDestroy(() => {
 });
 </script>
 
-<main class="full-view">
+<main class="full-view relative">
   <Header />
 
   <div id="scroll" class="half-second-transition" style="{scrollPostion}">
-    <Introduction />
     <Hello on:next="{nextStep}" />
+    <Introduction on:next="{nextStep}"/>
+    <Usage />
   </div>
 </main>
