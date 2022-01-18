@@ -1,5 +1,5 @@
 <script lang="ts">
-import {createEventDispatcher } from "svelte";
+import { createEventDispatcher } from "svelte";
 import MarkText from "../components/MarkText.svelte";
 import githubImg from "../assets/github.png";
 import rank2019 from "../assets/rank-2019.png";
@@ -7,10 +7,11 @@ import rank2020 from "../assets/rank-2020.png";
 import rank2021 from "../assets/rank-2021.png";
 import arrowRight from "../assets/arrow-right.png";
 
-import {contentWidth,scaleStyle} from '../store'
+import { contentWidth, scale } from "../store";
+import { getTop } from "../utils";
 
 const title: string = "Sveltes是什么？";
-const dispatch = createEventDispatcher()
+const dispatch = createEventDispatcher();
 
 const imgList = [
   { name: "2019年度前端框架流行排行", img: rank2019 },
@@ -18,14 +19,22 @@ const imgList = [
   { name: "2021年度前端框架流行排行", img: rank2021 },
 ];
 
+let mStyle: string = "";
+
 function nextStep() {
-  dispatch('next')
+  dispatch("next");
 }
+
+function getScale(node) {
+  const topStyle ="top:" + ( ($scale.radio - 1) * 858 + 30 ) + 'px';
+  mStyle = `width:${$contentWidth}px;${$scale.style};${topStyle}`;
+}
+
 </script>
 
-<section class="full-view pt-header absolute left-[100vw] top-0">
+<section class="full-view pt-header absolute left-[200vw] top-0">
   <div class="context-scroll">
-    <div class="pb-8 mx-auto relative" style="width: {$contentWidth}px;{$scaleStyle}">
+    <div use:getScale class="pb-8 mx-auto relative" style="{mStyle}">
       <h1 class="text-t-color font-medium text-4xl">
         {title}
       </h1>
@@ -34,7 +43,7 @@ function nextStep() {
         的作者 rich harris，在2019年弄出来的 。
       </p>
 
-      <img src="{githubImg}" alt="githubimg" class="block mt-4" />
+      <img src="{githubImg}" alt="githubimg" class="shadow block mt-4" />
 
       <p class="text-t-color text-xl pt-3">
         可以看到 54.6k star 和 2.6k fork
@@ -44,7 +53,7 @@ function nextStep() {
       <div>
         {#each imgList as vo}
           <div class="pt-4 text-center">
-            <img src="{vo.img}" alt="rank" />
+            <img class="shadow" src="{vo.img}" alt="rank" />
             <p class="text-xs text-gray-400 pt-1">{vo.name}</p>
           </div>
         {/each}
@@ -76,7 +85,9 @@ function nextStep() {
       </p>
 
       <div class="text-right">
-        <div on:click="{nextStep}" class="inline-block border-b cursor-pointer border-[#FF3E00] text-[#FF3E00]">
+        <div
+          on:click="{nextStep}"
+          class="inline-block border-b cursor-pointer border-[#FF3E00] text-[#FF3E00]">
           <i>Next</i><img
             src="{arrowRight}"
             class="ml-2 w-4 inline-block"

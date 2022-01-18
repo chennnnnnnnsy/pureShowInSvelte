@@ -1,6 +1,6 @@
 <style>
 #scroll {
-  width: 200vw;
+  width: 300vw;
   height: 200vh;
   position: relative;
   overflow: hidden;
@@ -12,34 +12,44 @@
 import { onMount, onDestroy } from "svelte";
 import { currentPageIndex } from "./store";
 
-import Header from './components/Header.svelte'
+import Header from "./components/Header.svelte";
 import Hello from "./pages/hello.svelte";
 import Introduction from "./pages/introduction.svelte";
-import Usage from './pages/usage.svelte'
+import Usage from "./pages/usage.svelte";
 
 /** 当前展示页面的下标 */
-let currentIndex: number; // 
+let currentIndex: number; //
 // 订阅currentPageIndex，并与本组件的 currenIndex 关联起来
 const unsubscribe = currentPageIndex.subscribe((val: number) => {
   currentIndex = val;
 });
 
-// currentPageIndex.set(0)
+currentPageIndex.set(0)
 
 /** 当前页面的坐标 */
 let scrollPostion: string = "";
 
 /** 下一个页面顺序 */
-const stepList: Array<string> = ["hello", "introduction", 'usage'];
+const stepList: Array<string> = [
+  "hello",
+  "introduction",
+  "usage",
+  "point",
+  "comparision",
+  "result",
+];
 
 /**
  * 页面矩阵
  * [
- *   [ 'introduction', ],
- *   [ 'hello' ],
+ *   ['result','usage', 'introduction', ],
+ *   [ 'point','comparision','hello' ],
  * ]
  */
-const viewMap: Array<Array<string>> = [["usage","introduction"], ["","hello"]];
+const viewMap: Array<Array<string>> = [
+  ["result", "usage", "introduction"],
+  ["point", "comparision", "hello"],
+];
 
 /**
  * 去到下一个页面
@@ -90,7 +100,7 @@ onDestroy(() => {
 
   <div id="scroll" class="half-second-transition" style="{scrollPostion}">
     <Hello on:next="{nextStep}" />
-    <Introduction on:next="{nextStep}"/>
+    <Introduction on:next="{nextStep}" />
     <Usage />
   </div>
 </main>

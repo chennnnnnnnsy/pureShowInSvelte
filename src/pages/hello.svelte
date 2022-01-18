@@ -12,7 +12,7 @@ const nextStep = () => {
 </script>
 
 <section
-  class="full-view bg-clip-border bg-auto bg-bottom absolute left-[100vw] top-[100vh]"
+  class="full-view bg-clip-border bg-auto bg-bottom absolute left-[200vw] top-[100vh]"
   style="background-image:url({welcomeImg})">
   <p
     on:click="{nextStep}"
