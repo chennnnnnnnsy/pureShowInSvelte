@@ -1,12 +1,11 @@
 <script lang="ts">
 import welcomeImg from "../assets/welcome.jpg";
 import arrowImg from "../assets/arrow-down.png";
-import { createEventDispatcher } from "svelte";
+import {toStep} from '../store'
 
-const dispatch = createEventDispatcher();
 
 const nextStep = () => {
-  dispatch("next");
+  $toStep()
 };
 
 </script>
