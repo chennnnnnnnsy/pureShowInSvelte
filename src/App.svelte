@@ -18,6 +18,7 @@ import Introduction from "./pages/introduction.svelte";
 import Usage from "./pages/usage.svelte";
 import Point from "./pages/point.svelte";
 import Comparision from "./pages/comparision.svelte";
+import Result from './pages/result.svelte'
 
 onMount(() => {
   $toStep();
@@ -33,5 +34,6 @@ onMount(() => {
     <Usage />
     <Point />
     <Comparision />
+    <Result />
   </div>
 </main>

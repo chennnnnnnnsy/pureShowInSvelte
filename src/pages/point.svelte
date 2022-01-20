@@ -52,6 +52,7 @@ const info = {
   <img src="{reactive3Img}" class="shadow rounded" alt="reactive" />
   <p class="bg-[#76B8C4] px-4 py-2 rounded mt-4 text-white">
     : 其实也是 js 的合法语法 - <a
+      target="_blank"
       href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/label"
       class="underline hover:text-primary-color">Label MDN</a>
   </p>
