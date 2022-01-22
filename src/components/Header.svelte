@@ -27,7 +27,7 @@ const themeNameStyles = [
       : 'w-9'}"
     src="{logoImg}"
     alt="logo" />
-  <h2 class="inline-block align-middle text-primary-color font-medium">
+  <h2 class="inline-block align-middle text-priamry-color font-medium">
     Svelte分享
   </h2>
 </div>
